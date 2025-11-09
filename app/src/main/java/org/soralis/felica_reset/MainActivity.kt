@@ -37,8 +37,7 @@ class MainActivity : AppCompatActivity() {
                 return
             }
 
-            statusText?.text = "初期化中..."
-            resetButton?.isEnabled = false
+            resetButton?.isEnabled = true
 
             executor = Executors.newSingleThreadExecutor()
             mainHandler = Handler(Looper.getMainLooper())

@@ -33,7 +33,7 @@
             android:value="53" />
         <meta-data
             android:name="xposedscope"
-            android:value="com.felicanetworks.mfm" />
+            android:value="com.felicanetworks.mfm.main" />
     </application>
 
 </manifest>
