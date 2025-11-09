@@ -1,0 +1,65 @@
+plugins {
+    id 'com.android.application'
+}
+
+repositories {
+    google()
+    mavenCentral()
+}
+
+android {
+    namespace 'org.soralis.felica_reset'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "org.soralis.felica_reset"
+        minSdk 21
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+    }
+
+    signingConfigs {
+        android {
+            storeFile file('android.jks')
+            storePassword 'android'
+            keyAlias 'android'
+            keyPassword 'android'
+        }
+        release {
+            storeFile file('release.jks')
+            storePassword System.getenv('STORE_PASSWORD')
+            keyAlias System.getenv('KEY_ALIAS')
+            keyPassword System.getenv('KEY_PASSWORD')
+        }
+    }
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles += 'proguard-rules.pro'
+            signingConfig signingConfigs.android
+        }
+        release {
+            minifyEnabled false
+            proguardFiles += 'proguard-rules.pro'
+            if (file('release.jks').exists()) {
+                signingConfig signingConfigs.release
+            }
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.core:core:1.12.0'
+    implementation 'androidx.window:window:1.2.0'
+    implementation 'com.google.android.material:material:1.10.0'
+}
