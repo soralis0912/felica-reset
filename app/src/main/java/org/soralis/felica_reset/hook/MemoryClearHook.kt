@@ -24,7 +24,7 @@ public class MemoryClearHook() : IXposedHookLoadPackage {
         if (lpparam.packageName != TARGET_PKG) return
 
         try {
-            XposedBridge.log("MemoryClearHook: attempting to hook $TARGET_CLASS#isCallerVerification")
+            XposedBridge.log("[Felica Reset] attempting to hook $TARGET_CLASS#isCallerVerification")
 
             // Replace the implementation to always return true.
             XposedHelpers.findAndHookMethod(
@@ -34,9 +34,9 @@ public class MemoryClearHook() : IXposedHookLoadPackage {
                 XC_MethodReplacement.returnConstant(true)
             )
 
-            XposedBridge.log("MemoryClearHook: hook installed successfully")
+            XposedBridge.log("[Felica Reset] hook installed successfully")
         } catch (t: Throwable) {
-            XposedBridge.log("MemoryClearHook: failed to install hook: " + t.message)
+            XposedBridge.log("[Felica Reset] failed to install hook: " + t.message)
         }
     }
 }

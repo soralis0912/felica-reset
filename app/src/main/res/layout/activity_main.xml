@@ -32,7 +32,7 @@
             android:id="@+id/status_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/status_initializing"
+            android:text="@string/status_ready"
             android:textSize="16sp"
             android:gravity="center"
             android:minHeight="60dp"
