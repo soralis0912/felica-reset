@@ -65,18 +65,53 @@ public class RootUtil {
     public static String detectRootManager() {
         Log.d(TAG, "Detecting root manager type");
         
-        // Magiskの判定
-        CommandResult magiskResult = executeRootCommand("magisk -v");
-        if (magiskResult.success && !magiskResult.output.isEmpty()) {
-            Log.d(TAG, "Magisk detected: " + magiskResult.output.trim());
-            return "magisk";
+        // su -v で Root管理システムを統一的に判定
+        try {
+            CommandResult suVersion = executeRootCommand("su -v");
+            String combined = "";
+            if (suVersion.output != null) combined += suVersion.output;
+            if (suVersion.error != null) combined += suVersion.error;
+
+            if (suVersion.success && !combined.trim().isEmpty()) {
+                String trimmed = combined.trim();
+                Log.d(TAG, "su -v output: " + trimmed);
+                
+                // Magisk判定: "数字.数字:MAGISKSU" または "数字.数字.数字:MAGISKSU" の形式
+                if (trimmed.matches(".*\\d+(?:\\.\\d+)*:MAGISKSU.*")) {
+                    Log.d(TAG, "Magisk detected via 'su -v': " + trimmed);
+                    return "magisk";
+                }
+                
+                // KernelSU判定: "数字.数字.数字:KernelSU" の形式
+                if (trimmed.matches(".*\\d+\\.\\d+\\.\\d+:KernelSU.*")) {
+                    Log.d(TAG, "KernelSU detected via 'su -v': " + trimmed);
+                    return "kernelsu";
+                }
+                
+                // フォールバック: 大文字小文字を区別せずに文字列を検索
+                String lower = trimmed.toLowerCase();
+                if (lower.contains("magisk")) {
+                    Log.d(TAG, "Magisk detected via string match: " + trimmed);
+                    return "magisk";
+                }
+                if (lower.contains("kernelsu")) {
+                    Log.d(TAG, "KernelSU detected via string match: " + trimmed);
+                    return "kernelsu";
+                }
+            }
+        } catch (Exception e) {
+            Log.w(TAG, "Error while checking 'su -v' for root manager", e);
         }
-        
-        // KernelSUの判定
-        CommandResult kernelsuResult = executeRootCommand("command -v kernelsu");
-        if (kernelsuResult.success && !kernelsuResult.output.isEmpty()) {
-            Log.d(TAG, "KernelSU detected");
-            return "kernelsu";
+
+        // 従来のMagisk判定をフォールバックとして保持
+        try {
+            CommandResult magiskResult = executeRootCommand("magisk -v");
+            if (magiskResult.success && !magiskResult.output.isEmpty()) {
+                Log.d(TAG, "Magisk detected via 'magisk -v': " + magiskResult.output.trim());
+                return "magisk";
+            }
+        } catch (Exception e) {
+            Log.w(TAG, "Error while checking 'magisk -v'", e);
         }
         
         // その他のRoot管理システム
