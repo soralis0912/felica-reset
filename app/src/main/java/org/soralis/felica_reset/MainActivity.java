@@ -282,7 +282,7 @@ public class MainActivity extends AppCompatActivity {
             });
             
             // フォールバックとして直接実行
-            return RootUtil.executeRootCommand("am start -a android.intent.action.MAIN -n com.felicanetworks.mfm/.memory_clear.MemoryClearActivity --activity-brought-to-front");
+            return RootUtil.executeRootCommand("am start -a android.intent.action.MAIN -n com.felicanetworks.mfm.main/com.felicanetworks.mfm.memory_clear.MemoryClearActivity --activity-brought-to-front");
         }
         
         String settingsUid = uidResult.output.trim();
@@ -305,7 +305,7 @@ public class MainActivity extends AppCompatActivity {
                 
                 // Magiskの場合は su $UID -c の形式で特定ユーザーとして実行
                 RootUtil.CommandResult magiskResult = RootUtil.executeRootCommand(
-                    "su " + settingsUid + " -c \"am start -a android.intent.action.MAIN -n com.felicanetworks.mfm/.memory_clear.MemoryClearActivity --activity-brought-to-front\""
+                    "su " + settingsUid + " -c \"am start -a android.intent.action.MAIN -n com.felicanetworks.mfm.main/com.felicanetworks.mfm.memory_clear.MemoryClearActivity --activity-brought-to-front\""
                 );
                 
                 // UI更新: Magisk実行結果の通知
@@ -325,7 +325,7 @@ public class MainActivity extends AppCompatActivity {
                 });
                 
                 RootUtil.CommandResult kernelsuResult = RootUtil.executeRootCommand(
-                    "su -c \"am start -a android.intent.action.MAIN -n com.felicanetworks.mfm/.memory_clear.MemoryClearActivity --activity-brought-to-front\" -u " + settingsUid
+                    "su -c \"am start -a android.intent.action.MAIN -n com.felicanetworks.mfm.main/com.felicanetworks.mfm.memory_clear.MemoryClearActivity --activity-brought-to-front\" -u " + settingsUid
                 );
                 
                 // UI更新: KernelSU実行結果の通知
@@ -352,7 +352,7 @@ public class MainActivity extends AppCompatActivity {
                     });
                     
                     RootUtil.CommandResult result = RootUtil.executeRootCommand(
-                        "runuser -u " + settingsUid + " -- am start -a android.intent.action.MAIN -n com.felicanetworks.mfm/.memory_clear.MemoryClearActivity --activity-brought-to-front"
+                        "runuser -u " + settingsUid + " -- am start -a android.intent.action.MAIN -n com.felicanetworks.mfm.main/com.felicanetworks.mfm.memory_clear.MemoryClearActivity --activity-brought-to-front"
                     );
                     
                     final String runuserStatus = result.success ? "成功" : "失敗";
@@ -370,7 +370,7 @@ public class MainActivity extends AppCompatActivity {
                     });
                     
                     RootUtil.CommandResult result = RootUtil.executeRootCommand(
-                        "setuidgid " + settingsUid + " am start -a android.intent.action.MAIN -n com.felicanetworks.mfm/.memory_clear.MemoryClearActivity --activity-brought-to-front"
+                        "setuidgid " + settingsUid + " am start -a android.intent.action.MAIN -n com.felicanetworks.mfm.main/com.felicanetworks.mfm.memory_clear.MemoryClearActivity --activity-brought-to-front"
                     );
                     
                     final String setuidgidStatus = result.success ? "成功" : "失敗";
@@ -390,7 +390,7 @@ public class MainActivity extends AppCompatActivity {
                 });
                 
                 RootUtil.CommandResult fallbackResult = RootUtil.executeRootCommand(
-                    "am start -a android.intent.action.MAIN -n com.felicanetworks.mfm/.memory_clear.MemoryClearActivity --activity-brought-to-front"
+                    "am start -a android.intent.action.MAIN -n com.felicanetworks.mfm.main/com.felicanetworks.mfm.memory_clear.MemoryClearActivity --activity-brought-to-front"
                 );
                 
                 final String fallbackStatus = fallbackResult.success ? "成功" : "失敗";
