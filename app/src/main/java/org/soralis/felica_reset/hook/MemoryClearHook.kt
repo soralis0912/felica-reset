@@ -14,9 +14,11 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
  * - This module will be loaded by Xposed in the target process.
  * - Project will be packaged/installed as an Xposed module (manifest/metadata not added here).
  */
-object MemoryClearHook : IXposedHookLoadPackage {
-    private const val TARGET_PKG = "com.felicanetworks.mfm"
-    private const val TARGET_CLASS = "com.felicanetworks.mfm.memory_clear.MemoryClearActivity"
+public class MemoryClearHook() : IXposedHookLoadPackage {
+    companion object {
+        private const val TARGET_PKG = "com.felicanetworks.mfm.main"
+        private const val TARGET_CLASS = "com.felicanetworks.mfm.memory_clear.MemoryClearActivity"
+    }
 
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
         if (lpparam.packageName != TARGET_PKG) return
