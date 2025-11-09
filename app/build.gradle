@@ -1,12 +1,7 @@
 plugins {
     id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
 }
-
-repositories {
-    google()
-    mavenCentral()
-}
-
 android {
     namespace 'org.soralis.felica_reset'
     compileSdk 34
@@ -62,4 +57,15 @@ dependencies {
     implementation 'androidx.core:core:1.12.0'
     implementation 'androidx.window:window:1.2.0'
     implementation 'com.google.android.material:material:1.10.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.20"
+    compileOnly 'de.robv.android.xposed:api:82'
+    compileOnly 'de.robv.android.xposed:api:82:sources'
 }
+
+// Ensure Kotlin JVM target matches Java
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile).configureEach {
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+}
+
